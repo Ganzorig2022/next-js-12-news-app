@@ -3,7 +3,7 @@ const dogData = data.posts;
 
 //===============================
 exports.getUsers = (req, res) => {
-  res.status(200).json(dogData);
+  res.status(200).json(data);
 };
 
 //===============================

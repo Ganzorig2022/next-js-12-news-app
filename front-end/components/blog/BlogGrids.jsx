@@ -12,27 +12,28 @@ import LoadingSpinner from '../Spinner';
 import { useRouter } from 'next/router';
 import { getDummyData } from '../../hooks/useDummyAPI';
 
-const BlogGrids = () => {
+const BlogGrids = (props) => {
+  console.log(props);
   const [blogData, setBlogData] = useState([]);
   const [isLoading, setIsLoading] = useState();
   const router = useRouter();
 
-  useEffect(() => {
-    const getData = async () => {
-      setIsLoading(true);
-      try {
-        const result = await getDummyData('post');
-        setBlogData(result);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const result = await getDummyData('post');
+  //       setBlogData(result);
+  //       setIsLoading(false);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //   };
+  //   getData();
+  // }, []);
 
   const goToPost = (id) => {
-    router.push(`/blog/${id}`);
+    router.push(`/users/${id}`);
   };
 
   if (isLoading) return <LoadingSpinner open={true} />;
@@ -46,7 +47,7 @@ const BlogGrids = () => {
         justifyContent='center'
         sx={{}}
       >
-        {blogData.map(({ text, owner, tags, image, publishDate, id }, idx) => {
+        {/* {blogData.map(({ text, owner, tags, image, publishDate, id }, idx) => {
           return (
             <Card
               sx={{ maxWidth: 350, margin: 5, borderRadius: '20px' }}
@@ -98,10 +99,22 @@ const BlogGrids = () => {
               </CardContent>
             </Card>
           );
-        })}
+        })} */}
       </Stack>
     </div>
   );
 };
+
+// export const getServerSideProps = async () => {
+//   try {
+//     const allData = await getDummyData('users');
+//     //   // const { params, req, res } = context;
+//     return {
+//       props: alldata,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 export default BlogGrids;
