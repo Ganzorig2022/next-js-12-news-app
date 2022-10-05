@@ -1,0 +1,30 @@
+.header {
+  position: relative;
+  /* width: 100%; */
+}
+
+.header .coverImg {
+  width: 100%;
+}
+
+.content {
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  width: 520px;
+}
+
+@media screen and (max-width: 600px) {
+  .content {
+    width: 300px;
+    top: 100px;
+    left: 50px;
+  }
+}
+@media screen and (max-width: 900px) {
+  .content {
+    width: 350px;
+    top: 100px;
+    left: 50px;
+  }
+}
