@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Stack, Card, CardContent, Avatar } from '@mui/material';
-import { getCommentData } from '../../../hooks/useDummyAPI';
+import { getCommentData } from '../../../helpers/getDataFromServer';
 
 const PostComments = ({ postId }) => {
   const [userComments, setUserComments] = useState();

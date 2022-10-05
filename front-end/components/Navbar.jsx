@@ -82,7 +82,7 @@ const Navbar = ({ children }) => {
               </List>
               <List>
                 <ListItem sx={{ padding: '0' }}>
-                  <ListItemButton onClick={(e) => routerHandler('/blog')}>
+                  <ListItemButton onClick={(e) => routerHandler('/users')}>
                     <ListItemText
                       primary='Blog'
                       sx={{
