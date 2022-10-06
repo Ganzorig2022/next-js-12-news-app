@@ -5,6 +5,7 @@ const app = express();
 const blogRouter = require('./routes/blogRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const AppError = require('./utils/AppError.js');
+const globalErrorHandler = require('./controller/errorController');
 
 //middlewares
 app.use(morgan('dev'));
@@ -24,22 +25,6 @@ app.all('*', (req, res, next) => {
 
 //=============Global Error Handler=====================
 //if error not 404, then internal server error -500
-app.use((error, req, res, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.status = error.status || 'error';
-
-  if (process.env.NODE_ENV === 'development') {
-    res.status(error.statusCode).json({
-      status: error.status,
-      message: error.message,
-      stack: error.stack,
-    });
-  } else if (process.env.NODE_ENV === 'production') {
-    res.status(error.statusCode).json({
-      status: error.status,
-      message: error.message,
-    });
-  }
-});
+app.use(globalErrorHandler);
 
 module.exports = app;

@@ -1,6 +1,6 @@
 const User = require('../models/userModel');
 const AppError = require('../utils/AppError');
-// const data = require('../data.json');
+const catchAsync = require('./../utils/catchAsync');
 
 //==================Get mulitple data=============
 exports.getUsers = async (req, res) => {
