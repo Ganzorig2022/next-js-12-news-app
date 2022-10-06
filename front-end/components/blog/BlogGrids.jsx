@@ -99,8 +99,7 @@ const BlogGrids = ({ data }) => {
               </CardContent>
             </Card>
           );
-        })}{' '}
-        */}
+        })}
       </Stack>
     </div>
   );
