@@ -1,6 +1,5 @@
 const Blog = require('../models/blogModel');
-const data = require('../data.json');
-const dogData = data.posts;
+// const data = require('../data.json');
 
 //==================Get mulitple data=============
 exports.getUsers = async (req, res) => {
@@ -33,11 +32,9 @@ exports.getUser = async (req, res) => {
       message: error,
     });
   }
-
-  // const user = dogData.find((user) => user.id === id);
 };
 
-//===============================
+//==================Create new Data=============
 exports.createUser = async (req, res) => {
   // firstly create all data at once
   // await Blog.deleteMany({});
@@ -46,9 +43,35 @@ exports.createUser = async (req, res) => {
   //   status: 'success',
   //   posts: newBlog,
   // });
+  try {
+    const newData = await Blog.create({
+      id: '60d21b4667d0d8992e610c96',
+      image: 'https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg',
+      likes: 37,
+      tags: ['animal', 'dog', 'golden retriever'],
+      text: 'adult Labrador retriever',
+      publishDate: '2020-05-24T14:53:17.598Z',
+      owner: {
+        id: '60d0fe4f5311236168a109ca',
+        title: 'ms',
+        firstName: 'Sara',
+        lastName: 'Andersen',
+        picture: 'https://randomuser.me/api/portraits/women/58.jpg',
+      },
+    });
+    res.status(200).json({
+      status: 'succes',
+      post: newData,
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
 };
 
-//===============================
+//=================Update data==============
 exports.updateUser = async (req, res) => {
   const update = req.body;
   try {
@@ -66,6 +89,19 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = (req, res) => {
+//=================Delete data==============
+exports.deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Blog.findOneAndDelete(id);
+    return res.status(200).json({
+      status: 'success',
+    });
+  } catch (error) {
+    res.status(404).json({
+      status: 'fail',
+      message: error,
+    });
+  }
   return res.status(200);
 };
