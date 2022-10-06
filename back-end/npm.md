@@ -4,6 +4,9 @@ npm i dotenv
 npm i morgan
 npm i cors
 npm i mongoose
+npm i validator
+npm i bcryptjs
+npm i jsonwebtoken
 
 npm start (nodemon server.js)
 

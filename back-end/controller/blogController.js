@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const Blog = require('../models/blogModel');
 const AppError = require('../utils/AppError');
 // const data = require('../data.json');
 
@@ -6,12 +6,12 @@ const AppError = require('../utils/AppError');
 exports.getUsers = async (req, res) => {
   try {
     //reading documents from mongodb
-    const usersData = await User.find();
+    const blogsData = await Blog.find();
 
     res.status(200).json({
       status: 'success',
-      results: usersData.length,
-      posts: usersData,
+      results: blogsData.length,
+      posts: blogsData,
     });
   } catch (error) {
     res.status(404).json({
@@ -24,31 +24,48 @@ exports.getUsers = async (req, res) => {
 //===============Get single data===============
 exports.getUser = async (req, res, next) => {
   const id = req.params.id;
-  const user = await User.findOne({ id: id });
+  const blog = await Blog.findOne({ id: id });
 
   //if id is WRONG then throw error
-  if (!user) {
+  if (!blog) {
     return next(new AppError('No blog found with that id', 404));
   }
   //if id is VALID then continue
   res.status(200).json({
-    status: 'success',
-    data: user,
+    status: 'succes',
+    data: blog,
   });
 };
 
 //==================Create new Data=============
 exports.createUser = async (req, res) => {
+  // firstly create all data at once
+  // await Blog.deleteMany({});
+  // const newBlog = await Blog.create(data.posts);
+  // return res.status(200).json({
+  //   status: 'success',
+  //   posts: newBlog,
+  // });
   try {
-    const newUser = await User.create({
-      name: ' Ganzo',
-      email: 'ganzo.galaxy@gmail.com',
-      password: '123456',
-      passwordConfirm: '123456',
+    const newData = await Blog.create({
+      id: '60d21b4667d0d8992e610c96',
+      image: 'https://img.dummyapi.io/photo-1564694202779-bc908c327862.jpg',
+      likes: 37,
+      tags: ['animal', 'dog', 'golden retriever'],
+      text: 'adult Labrador retriever',
+      publishDate: '2020-05-24T14:53:17.598Z',
+      price: 350,
+      owner: {
+        id: '60d0fe4f5311236168a109ca',
+        title: 'ms',
+        firstName: 'Sara',
+        lastName: 'Andersen',
+        picture: 'https://randomuser.me/api/portraits/women/58.jpg',
+      },
     });
     res.status(200).json({
-      status: 'success',
-      post: newUser,
+      status: 'succes',
+      post: newData,
     });
   } catch (error) {
     res.status(404).json({

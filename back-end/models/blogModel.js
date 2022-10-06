@@ -7,6 +7,8 @@ const blogSchema = new mongoose.Schema(
       required: [true, 'Id must be required'],
       trim: true,
       unique: true,
+      maxLength: [40, 'Id must have less than 40 characters'],
+      minLength: [10, 'Id must have more than 10 characters'],
     },
     image: {
       type: String,
@@ -19,6 +21,16 @@ const blogSchema = new mongoose.Schema(
       trim: true,
     },
     tags: { type: Array, default: [] },
+    price: {
+      type: Number,
+      requred: [true, 'Must have a price'],
+      validate: {
+        validator: (val) => {
+          return val < 300;
+        },
+        message: 'Price must be less than 300',
+      },
+    },
     text: { type: String, required: true, trim: true },
     publishDate: { type: String, required: true, trim: true },
     owner: {
@@ -35,3 +47,8 @@ const blogSchema = new mongoose.Schema(
 const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;
+
+// enum: {
+//   values: ['easy', 'medium', 'hard'],
+//   message: 'Difficulty is either: easy, medium,difficult'
+// }
