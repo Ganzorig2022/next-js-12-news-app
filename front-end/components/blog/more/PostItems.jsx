@@ -9,15 +9,15 @@ import {
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import LoadingSpinner from '../../Spinner';
-import { postCommentData } from '../../../hooks/useDummyAPI';
+import { postCommentData } from '../../../helpers/getDataFromServer';
 import SendIcon from '@mui/icons-material/Send';
-import { usePostIdContext } from '@/context/PostId';
 import PostComments from './PostComments';
+import { useSingleDataContext } from '@/context/SingleData';
+import { updateSingleData } from '../../../helpers/getDataFromServer';
 
-const PostItems = ({ post }) => {
-  const [isLoading, setIsLoading] = useState();
+const PostItems = () => {
+  const { singleData } = useSingleDataContext();
   const [value, setValue] = useState();
-  const { userPostId, setUserPostId } = usePostIdContext();
 
   const center = {
     display: 'flex',
@@ -26,28 +26,29 @@ const PostItems = ({ post }) => {
     justifyContent: 'center',
   };
 
-  useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, [post]);
-
   const commentValueHandler = (e) => {
     setValue(e.target.value);
   };
 
   const commentSubmitHandler = () => {
-    postCommentData(post.owner.id, post.id, value);
+    postCommentData(singleData.owner.id, singleData.id, value);
     setValue('');
   };
-
-  if (isLoading) return <LoadingSpinner open={true} />;
+  const updateSubmitHandler = async () => {
+    try {
+      const result = await updateSingleData('users', singleData.id, {
+        likes: '1414',
+      });
+      console.log(result);
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div style={center}>
       <Typography variant='h3' fontWeight={800} mb={3}>
-        {post.text}
+        {singleData.text}
       </Typography>
       <Stack
         direction='row'
@@ -57,25 +58,30 @@ const PostItems = ({ post }) => {
         mb={5}
         sx={{ width: 300 }}
       >
-        <Avatar src={post.owner.picture} />
+        <Avatar src={singleData.owner.picture} />
         <Stack direction='row'>
           <Typography color='text.grey' mr={2}>
-            {post.owner.firstName}
+            {singleData.owner.firstName}
           </Typography>
-          <Typography color='text.grey'>{post.owner.lastName} </Typography>
+          <Typography color='text.grey'>
+            {singleData.owner.lastName}{' '}
+          </Typography>
         </Stack>
         <Divider orientation='vertical' flexItem />
         <Typography color='text.grey'>
-          {new Date(post.publishDate.slice(0, 10)).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}
+          {new Date(singleData.publishDate.slice(0, 10)).toLocaleDateString(
+            'en-US',
+            {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            }
+          )}
         </Typography>
       </Stack>
       <Image
-        src={post.image}
-        alt={post.text}
+        src={singleData.image}
+        alt={singleData.text}
         width={700}
         height={400}
         objectFit='cover'
@@ -101,21 +107,23 @@ const PostItems = ({ post }) => {
         mb={5}
         sx={{ width: 300 }}
       >
-        <Avatar src={post.owner.picture} />
+        <Avatar src={singleData.owner.picture} />
         <Stack ml={5}>
           <Typography color='text.darkBlue'>Written by</Typography>
           <Stack direction='row'>
             <Typography color='text.grey' mr={2}>
-              {post.owner.firstName}
+              {singleData.owner.firstName}
             </Typography>
-            <Typography color='text.grey'>{post.owner.lastName} </Typography>
+            <Typography color='text.grey'>
+              {singleData.owner.lastName}{' '}
+            </Typography>
           </Stack>
           <Typography color='text.grey' fontSize={14}>
             CEO Team App{' '}
           </Typography>
         </Stack>
       </Stack>
-      <PostComments postId={post.id} />
+      {/* <PostComments postId={singleData.id} /> */}
       <Divider />
       <Typography fontSize={24} color='text.grey'>
         Leave your comment below
@@ -135,6 +143,14 @@ const PostItems = ({ post }) => {
         sx={{ margin: 5 }}
       >
         Submit your comment
+      </Button>
+      <Button
+        variant='contained'
+        onClick={updateSubmitHandler}
+        endIcon={<SendIcon />}
+        sx={{ margin: 5 }}
+      >
+        Update your LIKES
       </Button>
     </div>
   );

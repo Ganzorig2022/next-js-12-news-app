@@ -1,36 +1,43 @@
 import BlogItems from '../../components/blog/BlogItems';
 import Layout from '../../components/Layout';
-import { getDummyData } from 'hooks/useDummyAPI';
+import { useEffect, useState } from 'react';
+import { getAllData } from '../../helpers/getDataFromServer';
+import LoadingSpinner from 'components/Spinner';
 
-const Blog = (props) => {
-  console.log(props);
+const Blog = () => {
+  const [blogData, setBlogData] = useState([]);
+  const [isLoading, setIsLoading] = useState();
+
+  useEffect(() => {
+    const getData = async () => {
+      setIsLoading(true);
+      try {
+        const result = await getAllData('users');
+        setBlogData(result.posts);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getData();
+  }, []);
+
+  if (isLoading) return <LoadingSpinner open={true} />;
+
   return (
     <Layout title='Blogs'>
       <div style={{ margin: '64px 40px 20px' }}>
-        asdfas
-        <BlogItems />
+        <BlogItems data={blogData} />
       </div>
     </Layout>
   );
 };
 
-export const getServerSideProps = async () => {
-  const test = await getDummyData('users');
-  console.log(test);
-
-  return {
-    props: { test },
-  };
-
-  // try {
-  //   const allData = await getDummyData('users');
-  //   //   // const { params, req, res } = context;
-  // } catch (error) {
-  //   console.log(error);
-  // }
-
-  // return {
-  //   props: alldata,
-  // };
-};
+// export const getStaticProps = async () => {
+//   const result = await getAllData();
+//   return {
+//     props: { result: result },
+//     revalidate: 60,
+//   };
+// };
 export default Blog;

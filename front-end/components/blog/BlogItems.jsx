@@ -1,6 +1,6 @@
 import { Typography, Stack } from '@mui/material';
 import BlogGrids from './BlogGrids';
-const BlogItems = () => {
+const BlogItems = ({ data }) => {
   return (
     <div>
       <Stack justifyContent='flex-start'>
@@ -10,7 +10,7 @@ const BlogItems = () => {
         <Typography color='#6D7D8B' fontSize={18} fontWeight={600}>
           Our latest updates and blogs about managing your team
         </Typography>
-        <BlogGrids />
+        <BlogGrids data={data} />
       </Stack>
     </div>
   );

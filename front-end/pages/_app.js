@@ -1,14 +1,14 @@
 import '../styles/globals.css';
 import { CustomTheme } from 'utils/theme';
-import { PostIdProvider } from '@/context/PostId';
+import { SingleDataProvider } from '@/context/SingleData';
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <CustomTheme>
-        <PostIdProvider>
+        <SingleDataProvider>
           <Component {...pageProps} />
-        </PostIdProvider>
+        </SingleDataProvider>
       </CustomTheme>
     </>
   );

@@ -10,31 +10,31 @@ import {
 import { useEffect, useState } from 'react';
 import LoadingSpinner from '../Spinner';
 import { useRouter } from 'next/router';
-import { getDummyData } from '../../hooks/useDummyAPI';
+import { useSingleDataContext } from '../../context/SingleData';
+import { getSingleData } from '@/helpers/getDataFromServer';
 
-const BlogGrids = (props) => {
-  console.log(props);
-  const [blogData, setBlogData] = useState([]);
+const BlogGrids = ({ data }) => {
+  const { singleData, setSingleData } = useSingleDataContext();
   const [isLoading, setIsLoading] = useState();
+
   const router = useRouter();
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const result = await getDummyData('post');
-  //       setBlogData(result);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //   };
-  //   getData();
-  // }, []);
-
-  const goToPost = (id) => {
-    router.push(`/users/${id}`);
+  const goToPost = async (id) => {
+    setIsLoading(true);
+    try {
+      const result = await getSingleData('users', id);
+      console.log(result);
+      if (result) {
+        setIsLoading(false);
+        setSingleData(result);
+        router.push(`/users/${id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  // console.log(singleData);
 
   if (isLoading) return <LoadingSpinner open={true} />;
 
@@ -47,7 +47,7 @@ const BlogGrids = (props) => {
         justifyContent='center'
         sx={{}}
       >
-        {/* {blogData.map(({ text, owner, tags, image, publishDate, id }, idx) => {
+        {data.map(({ text, owner, tags, image, publishDate, id }, idx) => {
           return (
             <Card
               sx={{ maxWidth: 350, margin: 5, borderRadius: '20px' }}
@@ -99,7 +99,8 @@ const BlogGrids = (props) => {
               </CardContent>
             </Card>
           );
-        })} */}
+        })}{' '}
+        */}
       </Stack>
     </div>
   );

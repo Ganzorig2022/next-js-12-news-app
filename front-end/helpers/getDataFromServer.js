@@ -1,17 +1,37 @@
 import axios from 'axios';
 
-export const getDummyData = async (path) => {
+export const getAllData = async (path) => {
   try {
     const result = await axios.get(`http://localhost:8000/${path}`);
-    console.log(result);
-    // return JSON.parse(JSON.stringify(data));
-    return result;
+
+    return result.data;
   } catch (error) {
     console.log(error.message);
   }
 };
 
-// //=============using dummyapi.io===============================
+export const getSingleData = async (path, id) => {
+  try {
+    const result = await axios.get(`http://localhost:8000/${path}/${id}`);
+
+    return result.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+export const updateSingleData = async (path, id, update) => {
+  try {
+    const result = await axios.patch(
+      `http://localhost:8000/${path}/${id}`,
+      update
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 // export const getDummyData = async (path) => {
 //   try {
 //     const result = await axios.get(`https://dummyapi.io/data/v1/${path}`, {
