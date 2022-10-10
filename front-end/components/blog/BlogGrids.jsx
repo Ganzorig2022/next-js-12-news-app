@@ -23,7 +23,6 @@ const BlogGrids = ({ data }) => {
     setIsLoading(true);
     try {
       const result = await getSingleData('blogs', id);
-      console.log(result);
       if (result) {
         setIsLoading(false);
         setSingleData(result.data);

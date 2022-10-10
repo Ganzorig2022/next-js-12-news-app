@@ -3,7 +3,6 @@ import {
   Box,
   Toolbar,
   Typography,
-  IconButton,
   Stack,
   List,
   ListItem,
@@ -82,7 +81,7 @@ const Navbar = ({ children }) => {
               </List>
               <List>
                 <ListItem sx={{ padding: '0' }}>
-                  <ListItemButton onClick={(e) => routerHandler('/users')}>
+                  <ListItemButton onClick={(e) => routerHandler('/blogs')}>
                     <ListItemText
                       primary='Blog'
                       sx={{
