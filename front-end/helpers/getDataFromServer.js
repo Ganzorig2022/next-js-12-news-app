@@ -1,8 +1,10 @@
 import axios from 'axios';
-
+import { instance } from './instance';
+//https://axios-http.com/docs/instance
 export const getAllData = async (path) => {
   try {
-    const result = await axios.get(`http://localhost:8000/${path}`);
+    // const result = await instance.get(`http://localhost:8000/${path}`);
+    const result = await instance.get(path);
 
     return result.data;
   } catch (error) {
@@ -12,7 +14,7 @@ export const getAllData = async (path) => {
 
 export const getSingleData = async (path, id) => {
   try {
-    const result = await axios.get(`http://localhost:8000/${path}/${id}`);
+    const result = await instance.get(`${path}/${id}`);
 
     return result.data;
   } catch (error) {

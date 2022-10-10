@@ -7,7 +7,7 @@ import {
   Avatar,
   Divider,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LoadingSpinner from '../Spinner';
 import { useRouter } from 'next/router';
 import { useSingleDataContext } from '../../context/SingleData';
@@ -22,19 +22,19 @@ const BlogGrids = ({ data }) => {
   const goToPost = async (id) => {
     setIsLoading(true);
     try {
-      const result = await getSingleData('users', id);
+      const result = await getSingleData('blogs', id);
       console.log(result);
       if (result) {
         setIsLoading(false);
-        setSingleData(result);
-        router.push(`/users/${id}`);
+        setSingleData(result.data);
+        router.push(`/blogs/${id}`);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  // console.log(singleData);
+  console.log(singleData);
 
   if (isLoading) return <LoadingSpinner open={true} />;
 

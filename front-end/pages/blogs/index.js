@@ -12,7 +12,7 @@ const Blog = () => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        const result = await getAllData('users');
+        const result = await getAllData('blogs');
         setBlogData(result.posts);
         setIsLoading(false);
       } catch (error) {
