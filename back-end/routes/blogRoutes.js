@@ -1,19 +1,19 @@
 const express = require('express');
-const userController = require('../controller/blogController');
+const blogController = require('../controller/blogController');
 
 const userRouter = express.Router();
 
 //get all users info and create user info
 userRouter
   .route('/')
-  .get(userController.getUsers)
-  .post(userController.createUser);
+  .get(blogController.getUsers)
+  .post(blogController.createUser);
 
 //get all users info and create user info
 userRouter
   .route('/:id')
-  .get(userController.getUser)
-  .patch(userController.updateUser)
-  .delete(userController.deleteUser);
+  .get(blogController.getUser)
+  .patch(blogController.updateUser)
+  .delete(blogController.deleteUser);
 
 module.exports = userRouter;
