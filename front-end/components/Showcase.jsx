@@ -3,8 +3,15 @@ import Image from 'next/image';
 import WomanImg from '../public/woman.png';
 import { Typography, Stack, TextField, Button } from '@mui/material';
 import Layout from './Layout';
+import { useRef } from 'react';
 
 const Showcase = () => {
+  const emailInputRef = useRef();
+  const submitHandler = () => {
+    console.log(emailInputRef.current.value);
+
+    console.log('first');
+  };
   return (
     <Layout>
       <div className={styles.header}>
@@ -52,8 +59,10 @@ const Showcase = () => {
               inputProps={{ sx: { xs: { padding: 0 } } }}
               InputLabelProps={{ sx: { color: 'primary.main' } }}
               label='Email'
+              inputRef={emailInputRef}
             />
             <Button
+              onClick={submitHandler}
               variant='contained'
               sx={{
                 background: '#0BBEF2',
