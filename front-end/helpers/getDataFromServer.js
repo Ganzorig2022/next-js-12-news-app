@@ -34,6 +34,25 @@ export const updateSingleData = async (path, id, update) => {
   }
 };
 
+export const createUser = async (path, userData) => {
+  try {
+    const result = await axios.post(`http://localhost:8000/${path}`, userData);
+
+    return result;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+export const loginUser = async (path, userData) => {
+  try {
+    const result = await axios.post(`http://localhost:8000/${path}`, userData);
+
+    return result;
+  } catch (error) {
+    alert(error.response.data.message);
+  }
+};
+
 // export const getDummyData = async (path) => {
 //   try {
 //     const result = await axios.get(`https://dummyapi.io/data/v1/${path}`, {

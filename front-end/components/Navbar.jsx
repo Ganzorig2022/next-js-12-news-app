@@ -12,7 +12,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { useRouter } from 'next/router';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from 'react';
 
 const Navbar = ({ children }) => {
@@ -107,12 +107,12 @@ const Navbar = ({ children }) => {
               </List>
               <List>
                 <ListItem sx={{ padding: 0 }}>
-                  <ListItemButton>
+                  <ListItemButton onClick={(e) => routerHandler('/login')}>
                     <ListItemText
                       primary='Log In'
                       sx={{
                         textDecoration:
-                          router.pathname === '/' ? 'none' : 'underline',
+                          router.pathname === '/login' ? 'none' : 'underline',
                       }}
                     />
                   </ListItemButton>
