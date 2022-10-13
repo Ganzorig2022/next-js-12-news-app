@@ -40,7 +40,7 @@ export const createUser = async (path, userData) => {
 
     return result;
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 export const loginUser = async (path, userData) => {
