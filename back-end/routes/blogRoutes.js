@@ -1,19 +1,21 @@
 const express = require('express');
 const blogController = require('../controller/blogController');
+//user is logged in checking middleware function
+const authController = require('./../controller/authController');
 
-const userRouter = express.Router();
+const blogRouter = express.Router();
 
 //get all users info and create user info
-userRouter
+blogRouter
   .route('/')
-  .get(blogController.getUsers)
+  .get(authController.protect, blogController.getUsers)
   .post(blogController.createUser);
 
 //get all users info and create user info
-userRouter
+blogRouter
   .route('/:id')
   .get(blogController.getUser)
   .patch(blogController.updateUser)
   .delete(blogController.deleteUser);
 
-module.exports = userRouter;
+module.exports = blogRouter;

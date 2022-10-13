@@ -1,3 +1,4 @@
+const { promisify } = require('util'); //built-in method
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const catchAsync = require('./../utils/catchAsync');
@@ -11,15 +12,25 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsync(async (req, res, next) => {
-  const newUser = await User.create({
-    // name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    // passwordConfirm: req.body.passwordConfirm,
-  });
+  const newUser = await User.create(req.body);
 
   //create a new token
   const token = signToken(newUser._id);
+
+  //create a cookie
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // remove password from output
+  newUser.password = undefined;
 
   res.status(201).json({
     status: 'success',
@@ -55,18 +66,40 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
-// exports.protect = catchAsync(async (req, res, next) => {
-//   // 1) Get the token and check if it exists
-//   let token;
-//   if (
-//     req.header.authorization &&
-//     req.headers.authorization.startsWith('Bearer')
-//   ) {
-//     token = req.headers.authorization.split(' ')[1];
-//   }
-//   // 2) Validate token
+//  Protecting other routes if user is not logged in
+exports.protect = catchAsync(async (req, res, next) => {
+  let token;
+  // 1) Get the token and check if it exists
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    // req.headers dotroos {authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDc2'}-ees token-oo tasdaj awna.
+    token = req.headers.authorization.split(' ')[1];
+  }
+  if (!token) {
+    return next(new AppError('You are not logged in!', 401));
+  }
+  // 2) Validate token
+  //promisify() returns promise
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  //{ id: '6347690801008d9ed39ed220', iat: 1665640725, exp: 1665727125 } burtgeltei hereglegchiin ID butsaana.
 
-//   // 3) Check if user stil exists
-//   // 4) Check if user changed password after the token was issued
-//   next();
-// });
+  // 3) Check if user stil exists
+  const freshUser = await User.findById(decoded.id);
+  if (!freshUser) {
+    return next(
+      new AppError('User belonging to this token DOES NOT EXIST anymore!', 401)
+    );
+  }
+
+  // 4) Check if user changed password after the token was issued
+  if (freshUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError('User recently changed password! Please log in again!', 401)
+    );
+  }
+
+  // 5) GRANT ACCESS TO PROTECTED ROUTE
+  next();
+});

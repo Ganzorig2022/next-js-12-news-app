@@ -7,6 +7,8 @@ npm i mongoose
 npm i validator
 npm i bcryptjs
 npm i jsonwebtoken
+npm i express-rate-limit
+npm i helmet
 
 npm start (nodemon server.js)
 
