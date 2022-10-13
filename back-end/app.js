@@ -16,7 +16,7 @@ app.use(cors());
 
 //localhost:port/users
 app.use('/blogs', blogRouter);
-app.use('/users', userRouter);
+app.use('/', userRouter);
 
 //check if wrong url written.
 app.all('*', (req, res, next) => {

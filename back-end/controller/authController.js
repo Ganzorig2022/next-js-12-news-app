@@ -12,10 +12,10 @@ const signToken = (id) => {
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
-    name: req.body.name,
+    // name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
+    // passwordConfirm: req.body.passwordConfirm,
   });
 
   //create a new token
@@ -55,18 +55,18 @@ exports.login = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.protect = catchAsync(async (req, res, next) => {
-  // 1) Get the token and check if it exists
-  let token;
-  if (
-    req.header.authorization &&
-    req.headers.authorization.startsWith('Bearer')
-  ) {
-    token = req.headers.authorization.split(' ')[1];
-  }
-  // 2) Validate token
+// exports.protect = catchAsync(async (req, res, next) => {
+//   // 1) Get the token and check if it exists
+//   let token;
+//   if (
+//     req.header.authorization &&
+//     req.headers.authorization.startsWith('Bearer')
+//   ) {
+//     token = req.headers.authorization.split(' ')[1];
+//   }
+//   // 2) Validate token
 
-  // 3) Check if user stil exists
-  // 4) Check if user changed password after the token was issued
-  next();
-});
+//   // 3) Check if user stil exists
+//   // 4) Check if user changed password after the token was issued
+//   next();
+// });

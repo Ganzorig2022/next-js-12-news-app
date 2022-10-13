@@ -3,7 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, require: [true, 'Please enter your name'] },
+  // name: { type: String, require: [true, 'Please enter your name'] },
   email: {
     type: String,
     require: [true, 'Please enter your email'],
@@ -18,19 +18,19 @@ const userSchema = new mongoose.Schema({
     unique: true,
     select: false, //never show up in output
   },
-  passwordConfirm: {
-    type: String,
-    require: [true, 'Please confirm your password'],
-    minLength: 6,
-    unique: true,
-    validate: {
-      //it only works on CREATE and SAVE!!!
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: 'Passwords do not match.',
-    },
-  },
+  // passwordConfirm: {
+  //   type: String,
+  //   require: [true, 'Please confirm your password'],
+  //   minLength: 6,
+  //   unique: true,
+  //   validate: {
+  //     //it only works on CREATE and SAVE!!!
+  //     validator: function (el) {
+  //       return el === this.password;
+  //     },
+  //     message: 'Passwords do not match.',
+  //   },
+  // },
 });
 
 //before saving user info, encrypt the password. (password must not be shown in database)
