@@ -20,6 +20,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Layout from '../../components/Layout';
 import { useAuthContext } from '@/context/AuthContext';
+import { setCookie } from 'cookies-next';
 
 const Login = () => {
   const router = useRouter();
@@ -52,6 +53,7 @@ const Login = () => {
         if (result) {
           console.log(result);
           setIsLoggedIn(true);
+          setCookie('token', result.data.token);
           router.push('/blogs');
         }
       } catch (error) {

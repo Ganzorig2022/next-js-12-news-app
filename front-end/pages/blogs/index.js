@@ -28,14 +28,12 @@ const Blog = () => {
     getData();
   }, []);
 
-  console.log(isLoggedIn);
-  console.log(blogData);
   // if (isLoading) return <LoadingSpinner open={true} />;
 
   return (
     <Layout title='Blogs'>
       <div style={{ margin: '64px 40px 20px' }}>
-        <BlogItems data={blogData} />
+        {isLoggedIn && <BlogItems data={blogData} />}
       </div>
     </Layout>
   );
