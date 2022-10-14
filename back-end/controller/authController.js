@@ -84,22 +84,22 @@ exports.protect = catchAsync(async (req, res, next) => {
   //promisify() returns promise
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   //{ id: '6347690801008d9ed39ed220', iat: 1665640725, exp: 1665727125 } burtgeltei hereglegchiin ID butsaana.
-  if (decoded)
-    // // 3) Check if user stil exists
-    // const freshUser = await User.findById(decoded.id);
-    // if (!freshUser) {
-    //   return next(
-    //     new AppError('User belonging to this token DOES NOT EXIST anymore!', 401)
-    //   );
-    // }
 
-    // // 4) Check if user changed password after the token was issued
-    // if (freshUser.changedPasswordAfter(decoded.iat)) {
-    //   return next(
-    //     new AppError('User recently changed password! Please log in again!', 401)
-    //   );
-    // }
+  // 3) Check if user stil exists
+  const freshUser = await User.findById(decoded.id);
+  if (!freshUser) {
+    return next(
+      new AppError('User belonging to this token DOES NOT EXIST anymore!', 401)
+    );
+  }
 
-    // 5) GRANT ACCESS TO PROTECTED ROUTE
-    next();
+  // 4) Check if user changed password after the token was issued
+  if (freshUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new AppError('User recently changed password! Please log in again!', 401)
+    );
+  }
+
+  // 5) GRANT ACCESS TO PROTECTED ROUTE
+  next();
 });

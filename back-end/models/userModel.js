@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
 });
 
+//MIDDLEWARE: runs before .save() and .create()
 //before saving user info, encrypt the password. (password must not be shown in database) for SIGNUP PAGE
 userSchema.pre('save', async function (next) {
   // only run this function if password was actually modified

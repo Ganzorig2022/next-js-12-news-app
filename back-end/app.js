@@ -3,16 +3,20 @@ const morgan = require('morgan');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
+const dotenv = require('dotenv');
 
 const app = express();
 const blogRouter = require('./routes/blogRoutes');
 const userRouter = require('./routes/userRoutes');
 const AppError = require('./utils/AppError');
 const globalErrorHandler = require('./controller/errorController');
+dotenv.config({ path: './.env' });
 
 //================================ 1) GLOBAL MIDDLEWARES================================
 //Set security HTTP headers
 app.use(helmet());
+
+// app.use(morgan('dev'));
 
 //Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -29,7 +33,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in one hour',
 });
 
-// app.use('/blogs', limiter);
+app.use('/blogs', limiter);
 
 //prevent from CORS policy error
 app.use(cors());
