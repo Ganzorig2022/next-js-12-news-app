@@ -29,7 +29,7 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in one hour',
 });
 
-app.use('/blogs', limiter);
+// app.use('/blogs', limiter);
 
 //prevent from CORS policy error
 app.use(cors());
