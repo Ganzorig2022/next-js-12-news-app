@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -19,14 +19,21 @@ import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Layout from '../../components/Layout';
+import { useAuthContext } from '@/context/AuthContext';
 
 const Login = () => {
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const [showPassword, setShowPassword] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState();
   const [passwordIsValid, setPasswordIsValid] = useState();
   const emailRef = useRef(null);
   const passRef = useRef(null);
+
+  // useEffect(() => {
+  //   emailRef.current.value = '';
+  //   passRef.current.value = '';
+  // }, [emailRef]);
 
   //===============1. Sign In with firebase/auth when click Login button==============
   const onSubmitHandler = async () => {
@@ -41,26 +48,15 @@ const Login = () => {
           email,
           password,
         });
-        console.log(result);
+
+        if (result) {
+          console.log(result);
+          setIsLoggedIn(true);
+          router.push('/blogs');
+        }
       } catch (error) {
         alert(error.message);
       }
-      // try {
-      //   const auth = getAuth(app);
-      //   const userCredential = await signInWithEmailAndPassword(
-      //     auth,
-      //     email,
-      //     password
-      //   );
-      //   if (userCredential.user) {
-      //     setIsSpinning(false);
-      //     setIsLoggedIn(true);
-      //     toast.success('Та амжилттай нэвтэрлээ!');
-      //     navigate('/menu');
-      //   }
-      // } catch (error) {
-      //   toast.error('Something went wrong with registration');
-      // }
     }
   };
 

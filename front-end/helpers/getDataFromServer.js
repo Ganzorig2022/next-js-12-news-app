@@ -3,12 +3,13 @@ import { instance } from './instance';
 //https://axios-http.com/docs/instance
 export const getAllData = async (path) => {
   try {
-    // const result = await instance.get(`http://localhost:8000/${path}`);
+    // const result = await axios.get(`http://localhost:8000/${path}`);
     const result = await instance.get(path);
+    console.log('result irlee', result);
 
-    return result.data;
+    return result;
   } catch (error) {
-    console.log(error.message);
+    console.log('aldaa:', error);
   }
 };
 

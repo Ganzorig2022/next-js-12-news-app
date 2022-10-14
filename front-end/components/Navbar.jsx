@@ -14,21 +14,26 @@ import {
 import { useRouter } from 'next/router';
 // import MenuIcon from '@mui/icons-material/Menu';
 import { useEffect, useState } from 'react';
+import { useAuthContext } from '@/context/AuthContext';
 
 const Navbar = ({ children }) => {
-  const [scrollValue, setScrollValue] = useState(0);
+  // const [scrollValue, setScrollValue] = useState(0);
   const theme = useTheme();
   const router = useRouter();
+  const { isLoggedIn } = useAuthContext();
 
   const routerHandler = (path) => {
+    if (path === '/blogs') {
+      if (!isLoggedIn) router.push('/login');
+    }
     router.push(path);
   };
 
-  useEffect(() => {
-    window.onscroll = (event) => {
-      setScrollValue(window.pageYOffset);
-    };
-  });
+  // useEffect(() => {
+  //   window.onscroll = (event) => {
+  //     setScrollValue(window.pageYOffset);
+  //   };
+  // });
   const is600px = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -106,17 +111,31 @@ const Navbar = ({ children }) => {
                 </ListItem>
               </List>
               <List>
-                <ListItem sx={{ padding: 0 }}>
-                  <ListItemButton onClick={(e) => routerHandler('/login')}>
-                    <ListItemText
-                      primary='Log In'
-                      sx={{
-                        textDecoration:
-                          router.pathname === '/login' ? 'none' : 'underline',
-                      }}
-                    />
-                  </ListItemButton>
-                </ListItem>
+                {!isLoggedIn ? (
+                  <ListItem sx={{ padding: 0 }}>
+                    <ListItemButton onClick={(e) => routerHandler('/login')}>
+                      <ListItemText
+                        primary='Login'
+                        sx={{
+                          textDecoration:
+                            router.pathname === '/login' ? 'none' : 'underline',
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                ) : (
+                  <ListItem sx={{ padding: 0 }}>
+                    <ListItemButton onClick={(e) => routerHandler('/logout')}>
+                      <ListItemText
+                        primary='Logout'
+                        sx={{
+                          textDecoration:
+                            router.pathname === '/login' ? 'none' : 'underline',
+                        }}
+                      />
+                    </ListItemButton>
+                  </ListItem>
+                )}
               </List>
               <List>
                 <ListItem
