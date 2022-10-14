@@ -76,7 +76,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   ) {
     // req.headers dotroos {authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNDc2'}-ees token-oo tasdaj awna.
     token = req.headers.authorization.split(' ')[1];
-    console.log('token', token);
   }
   if (!token) {
     return next(new AppError('You are not logged in!', 401));
