@@ -33,8 +33,6 @@ const BlogGrids = ({ data }) => {
     }
   };
 
-  console.log(singleData);
-
   if (isLoading) return <LoadingSpinner open={true} />;
 
   return (

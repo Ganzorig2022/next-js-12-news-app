@@ -1,15 +1,16 @@
 import BlogItems from '../../components/blog/BlogItems';
 import Layout from '../../components/Layout';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { getAllData } from '../../helpers/getDataFromServer';
 import LoadingSpinner from 'components/Spinner';
 import { useAuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
+
 const Blog = () => {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const [blogData, setBlogData] = useState([]);
-  const [isLoading, setIsLoading] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -17,10 +18,13 @@ const Blog = () => {
       try {
         const result = await getAllData('blogs');
 
+        if (!result) {
+          router.push('/login');
+        }
         setBlogData(result.posts);
         setIsLoading(false);
       } catch (error) {
-        // console.log('error', error);
+        console.log('error', error);
         // alert(error.data);
       }
     };
@@ -28,7 +32,7 @@ const Blog = () => {
     getData();
   }, []);
 
-  // if (isLoading) return <LoadingSpinner open={true} />;
+  if (isLoading) return <LoadingSpinner open={true} />;
 
   return (
     <Layout title='Blogs'>
@@ -40,7 +44,7 @@ const Blog = () => {
 };
 
 // export const getStaticProps = async () => {
-//   const result = await getAllData();
+//   const result = await getAllData('blogs');
 //   return {
 //     props: { result: result },
 //     revalidate: 60,

@@ -19,9 +19,13 @@ import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Layout from '../../components/Layout';
+import { useAuthContext } from '@/context/AuthContext';
+import LoadingSpinner from 'components/Spinner';
 
 const Signup = () => {
   const router = useRouter();
+  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
+  const [isSpinning, setIsSpinning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState();
   const [passwordIsValid, setPasswordIsValid] = useState();
@@ -30,8 +34,7 @@ const Signup = () => {
 
   //===============1. Sign In with firebase/auth when click Login button==============
   const onSubmitHandler = async () => {
-    // setIsSpinning(true);
-    // setOpenLogin(false);
+    setIsSpinning(true);
 
     const email = emailRef.current.value;
     const password = passRef.current.value;
@@ -42,29 +45,13 @@ const Signup = () => {
           email,
           password,
         });
-        console.log(result);
+
+        setIsLoggedIn(true);
+        setIsSpinning(false);
+        router.push('/');
       } catch (error) {
         alert(error.message);
       }
-
-    // if (emailIsValid && passwordIsValid) {
-    //   try {
-    //     const auth = getAuth(app);
-    //     const userCredential = await signInWithEmailAndPassword(
-    //       auth,
-    //       email,
-    //       password
-    //     );
-    //     if (userCredential.user) {
-    //       setIsSpinning(false);
-    //       setIsLoggedIn(true);
-    //       toast.success('Та амжилттай нэвтэрлээ!');
-    //       navigate('/menu');
-    //     }
-    //   } catch (error) {
-    //     toast.error('Something went wrong with registration');
-    //   }
-    // }
   };
 
   //===================Helper functions====================================
@@ -91,7 +78,7 @@ const Signup = () => {
 
   return (
     <Layout>
-      {/* <LoadingSpinner /> */}
+      <LoadingSpinner open={isSpinning} />
 
       <Box sx={classes.modalContainer}>
         <Stack p={4}>

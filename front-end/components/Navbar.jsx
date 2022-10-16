@@ -21,12 +21,10 @@ const Navbar = ({ children }) => {
   const theme = useTheme();
   const router = useRouter();
   const { isLoggedIn } = useAuthContext();
-
   const routerHandler = (path) => {
     if (path === '/blogs') {
       if (!isLoggedIn) router.push('/login');
-    }
-    router.push(path);
+    } else router.push(path);
   };
 
   // useEffect(() => {
@@ -99,7 +97,7 @@ const Navbar = ({ children }) => {
               </List>
               <List>
                 <ListItem sx={{ padding: '0' }}>
-                  <ListItemButton onClick={(e) => routerHandler('/contacts')}>
+                  <ListItemButton>
                     <ListItemText
                       primary='Contacts'
                       sx={{

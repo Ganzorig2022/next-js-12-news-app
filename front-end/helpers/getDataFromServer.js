@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { instance } from './instance';
 import { getCookies } from 'cookies-next';
+
 //https://axios-http.com/docs/instance
 export const getAllData = async (path) => {
   try {
     // const result = await axios.get(`http://localhost:8000/${path}`);
     const tokenResult = getCookies('token');
-    // console.log(tokenResult);
+    console.log(tokenResult);
+
     const result = await axios.get(`http://localhost:8000/${path}`, {
       headers: {
         authorization: `Bearer ${tokenResult.token}`,

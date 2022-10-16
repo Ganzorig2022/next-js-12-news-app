@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import Navbar from './Navbar';
 import { Footer } from './Footer';
-// import Showcase from './Showcase';
 // import { useRouter } from 'next/router';
 
 const Layout = ({ title, keywords, description, children }) => {
@@ -15,7 +14,6 @@ const Layout = ({ title, keywords, description, children }) => {
         <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
       </Head>
       <Navbar />
-      {/* {router.pathname === '/' && <Showcase />} */}
       <div>{children}</div>
       <Footer />
     </div>

@@ -21,25 +21,21 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Layout from '../../components/Layout';
 import { useAuthContext } from '@/context/AuthContext';
 import { setCookie } from 'cookies-next';
+import LoadingSpinner from 'components/Spinner';
 
 const Login = () => {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
+  const [isSpinning, setIsSpinning] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState();
   const [passwordIsValid, setPasswordIsValid] = useState();
   const emailRef = useRef(null);
   const passRef = useRef(null);
 
-  // useEffect(() => {
-  //   emailRef.current.value = '';
-  //   passRef.current.value = '';
-  // }, [emailRef]);
-
   //===============1. Sign In with firebase/auth when click Login button==============
   const onSubmitHandler = async () => {
-    // setIsSpinning(true);
-    // setOpenLogin(false);
+    setIsSpinning(true);
 
     const email = emailRef.current.value;
     const password = passRef.current.value;
@@ -51,7 +47,8 @@ const Login = () => {
         });
 
         if (result) {
-          console.log(result);
+          emailRef.current.value = '';
+          passRef.current.value = '';
           setIsLoggedIn(true);
           setCookie('token', result.data.token);
           router.push('/blogs');
@@ -86,7 +83,7 @@ const Login = () => {
 
   return (
     <Layout>
-      {/* <LoadingSpinner /> */}
+      <LoadingSpinner open={isSpinning} />
 
       <Box sx={classes.modalContainer}>
         <Stack p={4}>

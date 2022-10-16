@@ -5,6 +5,14 @@ const nextConfig = {
   images: {
     domains: ['img.dummyapi.io'],
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/blogs',
+        destination: '/',
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
