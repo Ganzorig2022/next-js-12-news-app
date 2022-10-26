@@ -4,9 +4,12 @@ const AppError = require('../utils/AppError');
 
 //==================Get mulitple data=============
 exports.getUsers = async (req, res) => {
+  const page = req.headers.page;
+  const limit = req.headers.limit;
+  const skipVal = (page - 1) * limit;
   try {
     //reading documents from mongodb
-    const blogsData = await Blog.find();
+    const blogsData = await Blog.find().skip(skipVal).limit(limit);
 
     res.status(200).json({
       status: 'success',

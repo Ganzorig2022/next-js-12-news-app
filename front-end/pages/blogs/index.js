@@ -5,18 +5,25 @@ import { getAllData } from '../../helpers/getDataFromServer';
 import LoadingSpinner from 'components/Spinner';
 import { useAuthContext } from '@/context/AuthContext';
 import { useRouter } from 'next/router';
+import { Typography, Stack, Pagination } from '@mui/material';
 
 const Blog = () => {
   const router = useRouter();
   const { isLoggedIn, setIsLoggedIn } = useAuthContext();
   const [blogData, setBlogData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
 
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true);
       try {
-        const result = await getAllData('blogs');
+        const limit = 5;
+        const result = await getAllData('blogs', page, limit);
+        console.log('first', result);
 
         if (!result) {
           router.push('/login');
@@ -30,7 +37,7 @@ const Blog = () => {
     };
 
     getData();
-  }, []);
+  }, [page]);
 
   if (isLoading) return <LoadingSpinner open={true} />;
 
@@ -38,6 +45,10 @@ const Blog = () => {
     <Layout title='Blogs'>
       <div style={{ margin: '64px 40px 20px' }}>
         {isLoggedIn && <BlogItems data={blogData} />}
+        <Stack spacing={2}>
+          <Typography>Page: {page}</Typography>
+          <Pagination count={4} page={page} onChange={handleChange} />
+        </Stack>{' '}
       </div>
     </Layout>
   );
