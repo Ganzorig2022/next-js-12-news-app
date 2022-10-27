@@ -9,7 +9,7 @@ import { Typography, Stack, Pagination } from '@mui/material';
 
 const Blog = () => {
   const router = useRouter();
-  const { isLoggedIn, setIsLoggedIn } = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
   const [blogData, setBlogData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -23,7 +23,6 @@ const Blog = () => {
       try {
         const limit = 5;
         const result = await getAllData('blogs', page, limit);
-        console.log('first', result);
 
         if (!result) {
           router.push('/login');
@@ -32,7 +31,6 @@ const Blog = () => {
         setIsLoading(false);
       } catch (error) {
         console.log('error', error);
-        // alert(error.data);
       }
     };
 
@@ -45,10 +43,10 @@ const Blog = () => {
     <Layout title='Blogs'>
       <div style={{ margin: '64px 40px 20px' }}>
         {isLoggedIn && <BlogItems data={blogData} />}
-        <Stack spacing={2}>
+        <Stack spacing={2} alignItems='center' flexDirection='column'>
           <Typography>Page: {page}</Typography>
           <Pagination count={4} page={page} onChange={handleChange} />
-        </Stack>{' '}
+        </Stack>
       </div>
     </Layout>
   );

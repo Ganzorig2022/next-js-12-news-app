@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { Box, Button, Typography, Stack } from '@mui/material';
 import { classes } from '../../components/style';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import { useAuthContext } from '@/context/AuthContext';
+import { deleteCookie } from 'cookies-next';
 
 const Logout = () => {
   const router = useRouter();
@@ -12,6 +13,7 @@ const Logout = () => {
   const onSubmitHandler = async (choice) => {
     if (choice === 'yes') {
       setIsLoggedIn(false);
+      deleteCookie('token');
       alert('та системээс гарлаа.');
       router.push('/');
     }
