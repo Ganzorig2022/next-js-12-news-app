@@ -1,3 +1,10 @@
+## 1 - Start server
+
+1. npm i
+2. npm start
+
+## 2 - Used NPM packages
+
 npm init
 npm i express
 npm i dotenv
