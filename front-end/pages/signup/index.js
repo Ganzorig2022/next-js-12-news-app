@@ -46,6 +46,8 @@ const Signup = () => {
           password,
         });
 
+        console.log('user created', result);
+
         setIsLoggedIn(true);
         setIsSpinning(false);
         router.push('/');

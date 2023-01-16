@@ -1,3 +1,13 @@
+## 1 - Start project
+
+https://www.webdevtutor.net/error-solutions/next-is-not-recognized-as-an-internal-or-external-command-operable-program-or-batch-file
+
+```bash
+npm i next
+```
+
+1. npm run dev
+
 ======================================================================
 
 1. npx create-next-app@latest --typescript
